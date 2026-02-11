@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@900&display=swap');
+@import "tailwindcss";
+@theme {
+  --font-main: "Inter Tight", sans-serif;
+}
+
+.main-font-black {
+  font-family: var(--font-main);
+  font-weight: 900;
+  font-style: normal;
+  font-optical-sizing: auto;
+}
+.main-font-light {
+  font-family: var(--font-main);
+  font-weight: 300;
+  font-style: normal;
+  font-optical-sizing: auto;
+}
