@@ -1,5 +1,6 @@
 
 import {useState, useEffect} from "react";
+import CustomCursor from './Components/CustomCursor.jsx';
 import './App.css'
 
 function App() {
@@ -79,8 +80,9 @@ useEffect(() => {
      const DelitePlan =() => {
       const newPlans = plans.slice(0, plans.length - 1);
       setPlans(newPlans);
-      setCurrentId(
-       currentId > 1 ? currentId - 1 : currentId);
+      setCurrentId(prev => 
+        prev > 1 ? prev - 1 : prev
+      );
     };
     const [plans, setPlans] = useState(() => {
     const saved = localStorage.getItem('plans');
@@ -108,13 +110,21 @@ useEffect(() => {
 
   return (
     <>
-    <div className="w-full h-[870px] bg-[#f3f1e8] bg-[url('/public/2.jpg')] bg-cover relative z-[1]">
-      <div className="w-full h-[200px] bg-[#ffcc99] relative z-[1]">
+    <CustomCursor />
+    <div className="w-full h-[864px] bg-cover relative z-[1]"  style={{
+         backgroundImage: `
+             radial-gradient(#000 1px, transparent 1px),
+             linear-gradient(to right, #e5e5e5 1px, transparent 1px),
+             linear-gradient(to bottom, #e5e5e5 1px, transparent 1px)
+         `,
+         backgroundSize: '40px 40px, 100px 100px, 100px 100px'
+     }}>
+      <div className="w-full h-[200px] bg-[#ffcc99] group relative z-[1]">
         <div className="bg-[url('/public/Header2.png')] absolute inset-0 bg-cover relative z-[3] w-full h-[136px] ">
-        <div className="bg-[url('/public/Header2.png')] bg-cover  relative z-[2] w-full h-[136px] transition-all duration-2000 ease-in-out hover:scale-y-110 hover:translate-y-1">
+        <div className="bg-[url('/public/Header2.png')] bg-cover  relative z-[2] w-full h-[136px] transition-all duration-2000 ease-in-out hover:scale-y-110 group-hover:translate-y-2">
         </div>
-         <div className="absolute top-[15%] main-font-black text-#0b2037 z-[0] text-[200px] font-normal font-[400] leading-none tracking-tighter whitespace-nowrap">
-          To-do-list
+         <div className="absolute top-[15%] left-[2%] main-font-black text-#0b2037 drop-shadow-[6px_6px_0_rgba(241,100,47,1)] z-[0] text-[200px] font-normal font-[400]  leading-none tracking-tighter whitespace-nowrap" style={{ WebkitTextStroke: '2px black' }}>
+          Todo list
         </div>
         </div>
       </div>
@@ -128,8 +138,16 @@ useEffect(() => {
       
         <div className="flex items-start">
           <div className="w-[400px] h-[200px] bg-[#ffcc99] rounded-br-[20px] relative z-[1]">
-            <div className="flex mt-[220px]">
-          <div className="w-[400px] h-[430px] bg-[#ffcc99] rounded-br-[20px] rounded-tr-[20px]">
+            <div className="mt-[41px] ml-[45px] flex flex-column">
+                 <div className="main-font-black text-[20px]">
+            <li className="  transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>You can insert a table here</li>
+            <li className="  transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>Maybe some kind of icon</li>
+            <li className="  transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>Any data</li>
+            
+          </div>
+            </div>
+            <div className="flex mt-[87px]">
+          <div className="w-[400px] h-[425px] bg-[#ffcc99] rounded-br-[20px] rounded-tr-[20px]">
            <div className="m-[10px] text-#0b2037 text-[25px] main-font-black">
             Add general plans
            </div>
@@ -172,11 +190,11 @@ useEffect(() => {
           </div>
           </div>
           <div className="w-[10px] h-[10px] bg-[radial-gradient(circle_at_100%_100%,transparent_20px,#ffcc99_0)] w-[20px] h-[20px]"></div>
-          <div className="flex mt-[18px] grid grid-cols-7 gap-[10px]">
+          <div className={`flex mt-[18px] gap-[8px] ${currentMonth > 28 ? 'grid grid-cols-8' : 'grid grid-cols-7'}`}>
             
             {allCards.map((card) => (
                 
-                  <div key={card.id} onClick={() => openModyle(card)} className={`cards w-[130px] h-[150px] bg-cover bg-center bg-[#c9b6d2] rounded-[5px] cursor-grab
+                  <div key={card.id} onClick={() => openModyle(card)} className={`cards w-[130px] h-[150px] bg-cover bg-center bg-[#c9b6d2] rounded-[5px]
         relative gap-[2px]  transition-transform duration-600 ease-in-out ${card.itPast ? 'opacity-60' : ''} ${card.itsToday ? 'shadow-[0_8px_10px_-4px_rgba(0,0,0,0.8)]' : ''} ${selectedCard?.id === card.id ? 'z-[101] relative pointer-events-none' : 'hover:scale-110 hover:shadow-[0_0_20px_rgba(166,54,179,0.3)] hover:z-[52]'}`}>
                     <div className={`
                           main-font-black 
@@ -252,7 +270,7 @@ useEffect(() => {
                   </div>
                   {card.title ? (
                     <div className="w-[120px] h-auto min-h-[50px] bg-[#f3f1e8] shadow-[0_8px_10px_-4px_rgba(0,0,0,0.8)] rounded-[10px] text-#0b2037 mt-[10px] ml-[5px] pl-[5px] text-[12px] main-font-black ">
-                      <div className="ml-[3px] whitespace-pre-wrap break-words ">
+                      <div className="ml-[3px] cursor-hover whitespace-pre-wrap break-words ">
                     {card.title}
                         </div>
                         
@@ -274,14 +292,15 @@ useEffect(() => {
           </div>
           </div>
           </div>
-          <div className="w-full h-[117px] bg-[#f1642f] pt-[25px] gap-[300px] text-#0b2037 main-font-black text-[30px] flex  justify-center ">
-            <ul className="transition-all duration-600 ease-in-out hover:scale-105">@mihajuli</ul>
-            <ul className="transition-all duration-600 ease-in-out hover:scale-105">
+          <div className="w-full h-[117px] bg-[#f1642f] pt-[30px] gap-[70px] text-#0b2037 main-font-black text-[25px] flex  justify-center ">
+            <ul className=" drop-shadow-[4px_4px_0_rgba(255,204,153,1)] transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>@mihajuli</ul>
+            <ul className=" drop-shadow-[4px_4px_0_rgba(255,204,153,1)] transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>
               <a href="https://github.com/MishlenDDR" className="">
-              <span className="text-[25px]">GitHub-</span>MishlenDDR</a>
+              <span className="text-[20px]">GitHub-</span>MishlenDDR</a>
             </ul>
-            <ul className="transition-all duration-600 ease-in-out hover:scale-105">Aim at the roller</ul>
-
+            <ul className=" drop-shadow-[4px_4px_0_rgba(255,204,153,1)] transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>KryshokShitya@yandex.ru</ul>
+            <ul className=" drop-shadow-[4px_4px_0_rgba(255,204,153,1)] transition-all duration-600 ease-in-out hover:scale-105" style={{ WebkitTextStroke: '1px black' }}>Aim at the roller</ul>
+            
           </div>
      
     </>
